@@ -1,0 +1,27 @@
+================
+WHAT
+================
+
+Helium is a lightest version of Hydrogen...
+It's a lv2 drumkit plugin that find and use the hydrogen drumkit 
+available on your computer.
+
+
+===============
+COMPILE
+===============
+
+Use scons makefile to compile.
+In case of trouble with Qt compilation, go in file :
+/usr/lib/scons/SCons/Tool/qt.py
+and remove line 250 :
+QT_LIB = 'qt', # may be set to qt-mt
+
+There is no such linking in Qt.
+
+===============
+WHO
+===============
+
+Clément Guedez <klem.dev@gmail.com>
+

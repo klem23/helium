@@ -1,0 +1,1051 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix doap: <http://usefulinc.com/ns/doap#>.
+@prefix ev: <http://lv2plug.in/ns/ext/event#>.
+@prefix ui: <http://lv2plug.in/ns/extensions/ui#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
+
+<http://lv2plug.in/plugins/helium#ui>
+    a ui:Qt4UI;
+    ui:binary <helium_gui.so>.
+
+<http://lv2plug.in/plugins/helium>
+  a lv2:Plugin;
+  doap:maintainer [
+    foaf:name "Clement Guedez";
+    foaf:mbox <mailto:klem.dev@gmail.com>;
+  ];
+  doap:name "Helium";
+  doap:homepage <http://lv2plug.in/plugins/helium>;
+  doap:license <http://usefulinc.com/doap/licenses/gpl>;
+
+  ui:ui <http://lv2plug.in/plugins/helium#ui> ;
+
+  lv2:port [
+    a lv2:InputPort, atom:AtomPort ;
+    atom:bufferType atom:Sequence ;
+    atom:supports <http://lv2plug.in/ns/ext/midi#MidiEvent> ;
+    lv2:index 0;
+    lv2:symbol "midi_in";
+    lv2:name "MIDI in";
+  ],
+  
+  [
+    a lv2:OutputPort, lv2:AudioPort;
+    lv2:datatype lv2:float;
+    lv2:index 1;
+    lv2:symbol "output_left";
+    lv2:name "Output Left";
+  ],
+
+  [
+    a lv2:OutputPort, lv2:AudioPort;
+    lv2:datatype lv2:float;
+    lv2:index 2;
+    lv2:symbol "output_right";
+    lv2:name "Output Right";
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 3;
+    lv2:default 0;
+    lv2:minimum 0;
+    lv2:maximum 64;
+    lv2:symbol "drumkit";
+    lv2:name "Drum Kit";
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 4 ;
+    lv2:symbol "mute_1" ;
+    lv2:name "Mute Sample 1" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 5;
+    lv2:symbol "vol_1";
+    lv2:name "Volume Sample 1";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 6;
+    lv2:symbol "pan_1";
+    lv2:name "Pan Sample 1";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 7 ;
+    lv2:symbol "mute_2" ;
+    lv2:name "Mute Sample 2" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 8;
+    lv2:symbol "vol_2";
+    lv2:name "Volume Sample 2";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 9;
+    lv2:symbol "pan_2";
+    lv2:name "Pan Sample 2";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 10 ;
+    lv2:symbol "mute_3" ;
+    lv2:name "Mute Sample 3" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 11;
+    lv2:symbol "vol_3";
+    lv2:name "Volume Sample 3";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 12;
+    lv2:symbol "pan_3";
+    lv2:name "Pan Sample 3";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 13 ;
+    lv2:symbol "mute_4" ;
+    lv2:name "Mute Sample 4" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 14;
+    lv2:symbol "vol_4";
+    lv2:name "Volume Sample 4";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 15;
+    lv2:symbol "pan_4";
+    lv2:name "Pan Sample 4";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 16 ;
+    lv2:symbol "mute_5" ;
+    lv2:name "Mute Sample 5" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 17;
+    lv2:symbol "vol_5";
+    lv2:name "Volume Sample 5";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 18;
+    lv2:symbol "pan_5";
+    lv2:name "Pan Sample 5";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 19 ;
+    lv2:symbol "mute_6" ;
+    lv2:name "Mute Sample 6" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 20;
+    lv2:symbol "vol_6";
+    lv2:name "Volume Sample 6";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 21;
+    lv2:symbol "pan_6";
+    lv2:name "Pan Sample 6";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 22 ;
+    lv2:symbol "mute_7" ;
+    lv2:name "Mute Sample 7" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 23;
+    lv2:symbol "vol_7";
+    lv2:name "Volume Sample 7";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 24;
+    lv2:symbol "pan_7";
+    lv2:name "Pan Sample 7";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 25 ;
+    lv2:symbol "mute_8" ;
+    lv2:name "Mute Sample 8" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 26;
+    lv2:symbol "vol_8";
+    lv2:name "Volume Sample 8";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 27;
+    lv2:symbol "pan_8";
+    lv2:name "Pan Sample 8";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 28 ;
+    lv2:symbol "mute_9" ;
+    lv2:name "Mute Sample 9" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 29;
+    lv2:symbol "vol_9";
+    lv2:name "Volume Sample 9";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 30;
+    lv2:symbol "pan_9";
+    lv2:name "Pan Sample 9";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 31 ;
+    lv2:symbol "mute_10" ;
+    lv2:name "Mute Sample 10" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 32;
+    lv2:symbol "vol_10";
+    lv2:name "Volume Sample 10";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 33;
+    lv2:symbol "pan_10";
+    lv2:name "Pan Sample 10";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 34 ;
+    lv2:symbol "mute_11" ;
+    lv2:name "Mute Sample 11" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 35;
+    lv2:symbol "vol_11";
+    lv2:name "Volume Sample 11";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 36;
+    lv2:symbol "pan_11";
+    lv2:name "Pan Sample 11";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 37 ;
+    lv2:symbol "mute_12" ;
+    lv2:name "Mute Sample 12" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 38;
+    lv2:symbol "vol_12";
+    lv2:name "Volume Sample 12";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 39;
+    lv2:symbol "pan_12";
+    lv2:name "Pan Sample 12";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 40 ;
+    lv2:symbol "mute_13" ;
+    lv2:name "Mute Sample 13" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 41;
+    lv2:symbol "vol_13";
+    lv2:name "Volume Sample 13";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 42;
+    lv2:symbol "pan_13";
+    lv2:name "Pan Sample 13";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 43 ;
+    lv2:symbol "mute_14" ;
+    lv2:name "Mute Sample 14" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 44;
+    lv2:symbol "vol_14";
+    lv2:name "Volume Sample 14";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 45;
+    lv2:symbol "pan_14";
+    lv2:name "Pan Sample 14";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 46 ;
+    lv2:symbol "mute_15" ;
+    lv2:name "Mute Sample 15" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 47;
+    lv2:symbol "vol_15";
+    lv2:name "Volume Sample 15";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 48;
+    lv2:symbol "pan_15";
+    lv2:name "Pan Sample 15";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 49 ;
+    lv2:symbol "mute_16" ;
+    lv2:name "Mute Sample 16" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 50;
+    lv2:symbol "vol_16";
+    lv2:name "Volume Sample 16";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 51;
+    lv2:symbol "pan_16";
+    lv2:name "Pan Sample 16";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 52 ;
+    lv2:symbol "mute_17" ;
+    lv2:name "Mute Sample 17" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 53;
+    lv2:symbol "vol_17";
+    lv2:name "Volume Sample 17";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 54;
+    lv2:symbol "pan_17";
+    lv2:name "Pan Sample 17";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 55;
+    lv2:symbol "mute_18" ;
+    lv2:name "Mute Sample 18" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 56;
+    lv2:symbol "vol_18";
+    lv2:name "Volume Sample 18";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 57;
+    lv2:symbol "pan_18";
+    lv2:name "Pan Sample 18";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 58;
+    lv2:symbol "mute_19" ;
+    lv2:name "Mute Sample 19" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 59;
+    lv2:symbol "vol_19";
+    lv2:name "Volume Sample 19";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 60;
+    lv2:symbol "pan_19";
+    lv2:name "Pan Sample 19";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 61;
+    lv2:symbol "mute_20" ;
+    lv2:name "Mute Sample 20" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 62;
+    lv2:symbol "vol_20";
+    lv2:name "Volume Sample 20";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 63;
+    lv2:symbol "pan_20";
+    lv2:name "Pan Sample 20";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 0.5;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 64;
+    lv2:symbol "mute_21" ;
+    lv2:name "Mute Sample 21" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 65;
+    lv2:symbol "vol_21";
+    lv2:name "Volume Sample 21";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 66;
+    lv2:symbol "pan_21";
+    lv2:name "Pan Sample 21";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 67;
+    lv2:symbol "mute_22" ;
+    lv2:name "Mute Sample 22" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 68;
+    lv2:symbol "vol_22";
+    lv2:name "Volume Sample 22";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 69;
+    lv2:symbol "pan_22";
+    lv2:name "Pan Sample 22";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 70;
+    lv2:symbol "mute_23" ;
+    lv2:name "Mute Sample 23" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 71;
+    lv2:symbol "vol_23";
+    lv2:name "Volume Sample 23";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 72;
+    lv2:symbol "pan_23";
+    lv2:name "Pan Sample 23";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 73;
+    lv2:symbol "mute_24" ;
+    lv2:name "Mute Sample 24" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 74;
+    lv2:symbol "vol_24";
+    lv2:name "Volume Sample 24";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 75;
+    lv2:symbol "pan_24";
+    lv2:name "Pan Sample 24";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 76;
+    lv2:symbol "mute_25" ;
+    lv2:name "Mute Sample 25" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 77;
+    lv2:symbol "vol_25";
+    lv2:name "Volume Sample 25";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 78;
+    lv2:symbol "pan_25";
+    lv2:name "Pan Sample 25";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 79;
+    lv2:symbol "mute_26" ;
+    lv2:name "Mute Sample 26" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 80;
+    lv2:symbol "vol_26";
+    lv2:name "Volume Sample 26";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 81;
+    lv2:symbol "pan_26";
+    lv2:name "Pan Sample 26";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 82;
+    lv2:symbol "mute_27" ;
+    lv2:name "Mute Sample 27" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 83;
+    lv2:symbol "vol_27";
+    lv2:name "Volume Sample 27";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 84;
+    lv2:symbol "pan_27";
+    lv2:name "Pan Sample 27";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 85;
+    lv2:symbol "mute_28" ;
+    lv2:name "Mute Sample 28" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 86;
+    lv2:symbol "vol_28";
+    lv2:name "Volume Sample 28";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 87;
+    lv2:symbol "pan_28";
+    lv2:name "Pan Sample 28";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 88;
+    lv2:symbol "mute_29" ;
+    lv2:name "Mute Sample 29" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 89;
+    lv2:symbol "vol_29";
+    lv2:name "Volume Sample 29";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 90;
+    lv2:symbol "pan_29";
+    lv2:name "Pan Sample 29";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 91;
+    lv2:symbol "mute_30" ;
+    lv2:name "Mute Sample 30" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 92;
+    lv2:symbol "vol_30";
+    lv2:name "Volume Sample 30";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 93;
+    lv2:symbol "pan_30";
+    lv2:name "Pan Sample 30";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 94;
+    lv2:symbol "mute_31" ;
+    lv2:name "Mute Sample 31" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 95;
+    lv2:symbol "vol_31";
+    lv2:name "Volume Sample 31";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 96;
+    lv2:symbol "pan_31";
+    lv2:name "Pan Sample 31";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort ;
+    lv2:index 97;
+    lv2:symbol "mute_32" ;
+    lv2:name "Mute Sample 32" ;
+    lv2:default 0 ;
+    lv2:minimum 0 ;
+    lv2:maximum 1 ;
+    lv2:portProperty lv2:toggled ;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 98;
+    lv2:symbol "vol_32";
+    lv2:name "Volume Sample 32";
+    lv2:minimum 0;
+    lv2:maximum 1;
+    lv2:default 1;
+  ],
+
+  [
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 99;
+    lv2:symbol "pan_32";
+    lv2:name "Pan Sample 32";
+    lv2:minimum -1;
+    lv2:maximum 1;
+    lv2:default 0;
+  ].
+
