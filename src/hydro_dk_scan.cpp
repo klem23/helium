@@ -58,11 +58,22 @@ hydro_dk_scan::hydro_dk_scan(bool sample_load_data /*=true*/){
 	load_data = sample_load_data;
 	scan_path();
 
+	/*initiate xerces XML parser*/
+	try{
+		XMLPlatformUtils::Initialize();
+	}
+	catch (const XMLException& toCatch) {
+		char* message = XMLString::transcode(toCatch.getMessage());
+		cout << "Error during XML Parser initialization! :\n";
+		cout << "Exception message is: \n"<< message << "\n";
+		XMLString::release(&message);
+	}
+
 }
 
 
 hydro_dk_scan::~hydro_dk_scan(){
-
+	XMLPlatformUtils::Terminate();
 }
 
 void hydro_dk_scan::scan_path(){
@@ -104,7 +115,6 @@ void hydro_dk_scan::scan_path(){
 		cout << i << ":" << it->name << endl;
 		i++;
 	}
-
 }
 
 string hydro_dk_scan::get_name(uint32_t index){
@@ -125,18 +135,6 @@ uint32_t hydro_dk_scan::get_dk_nb(){
 
 
 void hydro_dk_scan::load_drumkit(uint32_t index, plugin_iface* plugin){
-
-	/*initiate xerces XML parser*/
-	try{
-		XMLPlatformUtils::Initialize();
-	}
-	catch (const XMLException& toCatch) {
-		char* message = XMLString::transcode(toCatch.getMessage());
-		cout << "Error during XML Parser initialization! :\n";
-		cout << "Exception message is: \n"
-				<< message << "\n";
-		XMLString::release(&message);
-	}
 
 	/*create xerces XML parser*/
 	string path = get_path(index);
@@ -169,7 +167,6 @@ void hydro_dk_scan::load_drumkit(uint32_t index, plugin_iface* plugin){
 	delete parser;
 	delete xp;
 
-	XMLPlatformUtils::Terminate();
 
 
 }

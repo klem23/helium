@@ -65,14 +65,15 @@ private:
 
   QStringList qlist;
 
-  QHBoxLayout lay;
-  QVBoxLayout *vlay[H_NB_INST];
-  QFrame  *qf[H_NB_INST];
-  QComboBox  dk_list;
-  QwtSlider* vol_knob_tab[H_NB_INST];
-  QwtKnob* pan_knob_tab[H_NB_INST];
-  QPushButton* mute_butt_tab[H_NB_INST];
-  bool mute_state[H_NB_INST];
+  QHBoxLayout	*lay;
+  QVBoxLayout	*vlay[H_NB_INST];
+  QComboBox	dk_list;
+  QFrame	*qfl;
+  QFrame	*qf[H_NB_INST];
+  QwtSlider*	vol_knob_tab[H_NB_INST];
+  QwtKnob*	pan_knob_tab[H_NB_INST];
+  QPushButton*	mute_butt_tab[H_NB_INST];
+  bool 		mute_state[H_NB_INST];
 
   void display_drumkit();
 

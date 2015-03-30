@@ -89,7 +89,6 @@ float DrumKit::get_mute(int id){
 }
 
 HeGui::HeGui(QWidget *parent)
-//: QWidget(parent)
 	:QScrollArea(parent)
 	,scanner(new hydro_dk_scan(false)){
 
@@ -98,10 +97,11 @@ HeGui::HeGui(QWidget *parent)
 		qlist.push_back(qs);
 	}
 
+	lay = new QHBoxLayout();
+
 	dk_list.addItems(qlist);
 	dk_list.setFixedWidth(200);
-	lay.addWidget(&dk_list);
-
+	lay->addWidget(&dk_list);
 
 	QVBoxLayout *vlay = new QVBoxLayout();
 	QLabel *lab_pan = new QLabel("Pan");
@@ -110,45 +110,28 @@ HeGui::HeGui(QWidget *parent)
 	vlay->addWidget(lab_pan);
 	vlay->addWidget(lab_vol);
 	vlay->addWidget(lab_mute);
-	QFrame *qfl = new QFrame();
+	qfl = new QFrame();
 	qfl->setFrameShape(QFrame::Box);
 	qfl->setLayout(vlay);
 
 	//lay->addLayout(vlay);
-	lay.addWidget(qfl);
+	lay->addWidget(qfl);
 
 	/*load default drumkit*/
 	scanner->load_drumkit(0, (plugin_iface*)&dk);
 
-  for(int i = 0; i < H_NB_INST; i++){
-      qf[i] = NULL;
-      mute_state[i] = false;
-  }
+	for(int i = 0; i < H_NB_INST; i++){
+		qf[i] = NULL;
+		mute_state[i] = false;
+	}
 
-  display_drumkit();
+	display_drumkit();
 
-  //setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  //setSizePolicy(qsp->verticalStretch());
+	this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-  //QSizePolicy* qsp = new QSizePolicy(QSizePolicy::verticalStretch());
-  //setSizePolicy(qsp);
+	setFixedHeight(400);
 
-  this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-  //setLayout(lay);
-  QWidget *wd = new QWidget();
-  wd->setLayout(&lay);
-  setWidget(wd);
-
-  //resize(800,height());
-
-  //dk_list.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  //adjustSize();
-  //setFixedWidth(600);
-  setFixedHeight(400);
-
-  connect(&dk_list, SIGNAL(currentIndexChanged(int)), this, SLOT(dk_change(int)));
+	connect(&dk_list, SIGNAL(currentIndexChanged(int)), this, SLOT(dk_change(int)));
 
 }
 
@@ -166,23 +149,17 @@ void HeGui::display_drumkit(){
 
 	for(int i = 0; i < H_NB_INST; i++){
 		if(qf[i] != NULL){
-
-
-			lay.removeWidget(qf[i]);
+			lay->removeWidget(qf[i]);
 
 			delete qf[i];
 			qf[i] = NULL;
-
-			//delete vlay[i];
-			//vlay[i] = NULL;
-
-			//delete pan_knob_tab[i];
-			//pan_knob_tab[i] = 0;
-
-			//delete vol_knob_tab[i];
-			//vol_knob_tab[i] = NULL;
 		}
 	}
+
+	delete lay;
+	lay = new QHBoxLayout();
+  	lay->addWidget(&dk_list);
+  	lay->addWidget(qfl);
 
 
 	for(int i = 0; i < H_NB_INST; i++){
@@ -247,10 +224,8 @@ void HeGui::display_drumkit(){
 			qf[i]->setFrameShape(QFrame::Box);
 			qf[i]->setLayout(vlay[i]);
 
-			//lay->addLayout(vlay);
-			//vlay->setF
 			//qf[i]->setFixedWidth(100);
-			lay.addWidget(qf[i]);
+			lay->addWidget(qf[i]);
 			//this->window()->setFixedSize(800,300);
 			//this->window()->updateGeometry();
 			//updateGeometry();
@@ -263,6 +238,10 @@ void HeGui::display_drumkit(){
 		}
 	}
 	//show();
+
+	QWidget *wd = new QWidget();
+	wd->setLayout(lay);
+	setWidget(wd);
 
 }
 
