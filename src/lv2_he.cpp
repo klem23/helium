@@ -26,7 +26,7 @@
 
 #include "he.hpp"
 
-#define HE_URI       "http://lv2plug.in/plugins/helium";
+#define HE_URI       "http://github.com/klem23/helium";
 
 LV2_Descriptor *HeDesc = NULL;
 float* drumkit_select;

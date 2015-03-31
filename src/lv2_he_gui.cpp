@@ -27,7 +27,7 @@
 #include "hegui.hpp"
 
 
-#define HEUI_URI "http://lv2plug.in/plugins/helium#ui";
+#define HEUI_URI "http://github.com/klem23/helium#ui";
 
 
 using namespace std;
