@@ -37,7 +37,8 @@ using namespace xercesc;
 He::He(uint32_t sampling_rate)
 :midi_in(NULL),audio_out_L(NULL),audio_out_R(NULL)
 ,s_rate(sampling_rate),main_vol(1)
-,loading(false),actual_dk(2){
+,loading(false),actual_dk(2)
+,use_note_off(false),use_velocity(false),key_shift(48){
 
 	for(uint32_t i = 0; i < H_NB_INST; i++){
 		drumkit[i] = NULL;
@@ -78,7 +79,24 @@ void He::check_param(he_param* hp){
 		loading = false;
 	}
 
-	/*for(uint8_t i = 0; i < H_NB_INST; i++){
+	/*
+	if((use_note_off)&&(*hp->use_note_off <= 0)){
+		use_note_off = false;
+	}else if((!use_note_off)&&(*hp->use_note_off > 0)){
+		use_note_off = true;
+	}
+
+	if((use_velocity)&&(*hp->use_velocity <= 0)){
+		use_velocity = false;
+	}else if((!use_velocity)&&(*hp->use_velocity > 0)){
+		use_velocity = true;
+	}
+
+	if(key_shift != (uint8_t)*hp->key_shift){
+		key_shift = hp->key_shift 
+	}
+
+	for(uint8_t i = 0; i < H_NB_INST; i++){
 		if(drumkit[i] != NULL){
 			drumkit[i]->set_vol(*hp->vol[i]);
 			drumkit[i]->set_pan(*hp->pan[i]);
@@ -164,7 +182,7 @@ void He::process_2(int nb_sample){
 
 void He::process(int nb_sample){
 
-	uint8_t midi_note, *data;
+	uint8_t midi_note, *data, status_byte;
 	/*midi input parsing v2*/
 	LV2_Atom_Sequence* m_in = (LV2_Atom_Sequence*)midi_in;
 	LV2_Atom_Event* ev = lv2_atom_sequence_begin(&m_in->body); 
@@ -180,15 +198,29 @@ void He::process(int nb_sample){
 				if(ev->time.frames <= pos){
 					data = (uint8_t*)LV2_ATOM_BODY(&ev->body);
 
-					if((data[0] & 0xF0) == 0x90){
+					status_byte = data[0] & 0xF0;
+					if( status_byte == 0x90){
 						//midi_note = data[1] - 48;
-						if(data[1] > 48){
-							midi_note = data[1] - 48;
+						if(data[1] > key_shift){
+							midi_note = data[1] - key_shift;
 						}else{
 							midi_note = 0;
 						}
-						if((drumkit[midi_note] != NULL)&&(midi_note < H_NB_INST)){
-							drumkit[midi_note]->note_on();
+						if((midi_note < H_NB_INST)&&(drumkit[midi_note] != NULL)){
+							if(use_velocity){
+								drumkit[midi_note]->note_on(data[2]);
+							}else{
+								drumkit[midi_note]->note_on();
+							}
+						}
+					}else if((use_note_off)&&(status_byte == 0x80)){
+						if(data[1] > key_shift){
+							midi_note = data[1] - key_shift;
+						}else{
+							midi_note = 0;
+						} 
+						if((midi_note < H_NB_INST)&&(drumkit[midi_note] != NULL)){
+							drumkit[midi_note]->note_off();
 						}
 					}
 					ev = lv2_atom_sequence_next(ev);

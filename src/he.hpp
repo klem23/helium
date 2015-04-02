@@ -35,6 +35,9 @@
 
 typedef struct{
 	float* dk_nb;
+	float* use_note_off;
+	float* use_velocity;
+	float* key_shift;
 	float* mute[H_NB_INST];
 	float* vol[H_NB_INST];
 	float* pan[H_NB_INST];
@@ -54,6 +57,10 @@ private:
 
 	hydro_dk_scan* hds;
 	uint32_t actual_dk;
+
+	bool use_note_off;
+	bool use_velocity;
+	uint8_t key_shift;
 
 public:
 	He(uint32_t sampling_rate);

@@ -33,9 +33,10 @@ class sample{
 		float** data;
 
 		uint32_t lgth;
-		uint32_t inc;
 		uint32_t channels;
 		uint32_t s_rate;
+		uint32_t inc;
+		float velocity;
 
 		float vol;
 		float panL;
@@ -56,6 +57,8 @@ class sample{
 		float Mute(void);
 
 		void note_on(void);
+		void note_on(uint8_t vel);
+		void note_off(void);
 		float get_val_L(void);
 		float get_val_R(void);
 

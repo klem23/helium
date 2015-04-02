@@ -27,7 +27,7 @@
 
 sample::sample(const sample & smpl)
 	:name(smpl.name),data(NULL)
-	,lgth(smpl.lgth),inc(0),channels(smpl.channels),s_rate(smpl.s_rate)
+	,lgth(smpl.lgth),channels(smpl.channels),s_rate(smpl.s_rate),inc(0),velocity(1.0)
 	,vol(smpl.vol),panL(smpl.panL),panR(smpl.panR),mute(smpl.mute)
 	,data_loaded(false){
 
@@ -48,7 +48,7 @@ sample::sample(const sample & smpl)
 
 sample::sample(uint32_t samplerate, string path, string name_t /*= "no_name"*/, bool load_data /*=rue*/ )
 	:name(name_t),data(NULL)
-	,lgth(0),inc(0),channels(0),s_rate(samplerate)
+	,lgth(0),channels(0),s_rate(samplerate),inc(0),velocity(1.0)
 	,vol(1),panL(1),panR(1),mute(false)
 	,data_loaded(false){
 
@@ -132,7 +132,7 @@ sample::sample(uint32_t samplerate, string path, string name_t /*= "no_name"*/, 
 
 sample::sample(uint32_t samplerate, vector<string> path, string name_t, bool load_data /*=true*/)
 	:name(name_t),data(NULL)
-	,lgth(0),inc(0),channels(0),s_rate(samplerate)
+	,lgth(0),channels(0),s_rate(samplerate),inc(0),velocity(1.0)
 	,vol(1),panL(1),panR(1),mute(false)
 	,data_loaded(false){
 
@@ -216,13 +216,26 @@ void sample::note_on(){
 	inc = lgth + 1;
 }
 
+void sample::note_on(uint8_t vel){
+        /* +1 for decrement before returning value*/
+#ifdef debug
+        cout << "note on lgth #" << lgth << endl;
+#endif
+        inc = lgth + 1;
+	velocity = (float)vel/127.0;
+}
+
+void sample::note_off(){
+        inc = 0;
+}
+
 float sample::get_val_L(void){
 	if((data_loaded)&&(!mute)){
 		if(inc == 0){
 			return 0;
 		}else{
 			inc--;
-			return vol * panL * data[0][lgth - inc];
+			return velocity * vol * panL * data[0][lgth - inc];
 		}
 	}else{
 		return 0;
@@ -236,9 +249,9 @@ float sample::get_val_R(void){
 		}else{
 			//inc--;
 			if( channels == 2){
-				return vol * panR * data[1][lgth - inc];
+				return velocity * vol * panR * data[1][lgth - inc];
 			}else{
-				return vol * panR * data[0][lgth - inc];
+				return velocity * vol * panR * data[0][lgth - inc];
 			}
 		}
 	}else{
