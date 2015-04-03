@@ -231,8 +231,8 @@ void HeGui::display_drumkit(){
 			//updateGeometry();
 			//lay.adjustSize();
 
-			connect(vol_knob_tab[i], SIGNAL(valueChanged(double)), this, SLOT(send_data(i*3 + VOL_SHIFT, double)));
-			connect(pan_knob_tab[i], SIGNAL(valueChanged(double)), this, SLOT(send_data(i*3 + PAN_SHIFT, double)));
+			connect(vol_knob_tab[i], SIGNAL(valueChanged(double)), this, SLOT(send_data(double)));
+			connect(pan_knob_tab[i], SIGNAL(valueChanged(double)), this, SLOT(send_data(double)));
 			connect(mute_butt_tab[i], SIGNAL(clicked()), this, SLOT(mute_click()));
 
 		}
@@ -284,6 +284,11 @@ void HeGui::lv2_send_data(uint32_t index, double val){
 
 #endif
 
+void HeGui::send_data(uint32_t index, double val){
+#ifdef LV2_GUI
+			lv2_send_data(index, val / 100);
+#endif
+}
 
 void HeGui::send_data(double val){
 	QObject* src = QObject::sender();
