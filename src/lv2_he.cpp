@@ -47,309 +47,47 @@ void connectPortHe(LV2_Handle instance, uint32_t port,
 {
 	He *plugin = (He *)instance;
 
-	switch (port) {
-	case 0:
-		plugin->set_input((float*)data);
-		break;
-	case 1:
-		plugin->set_output_L((float*)data);
-		break;
-	case 2:
-		plugin->set_output_R((float*)data);
-		break;
-	case 3:
-		//drumkit_select = (float*)data;
-		g_he_param.dk_nb = (float*)data;
-		break;
-	case 4:
-                g_he_param.mute[0] = (float*)data;
-                break;
-        case 5:
-                g_he_param.vol[0] = (float*)data;
-                break;
-	case 6:
-                g_he_param.pan[0] = (float*)data;
-                break;
-	case 7:
-                g_he_param.mute[1] = (float*)data;
-                break;
-        case 8:
-                g_he_param.vol[1] = (float*)data;
-                break;
-        case 9:
-                g_he_param.pan[1] = (float*)data;
-                break;
-        case 10:
-                g_he_param.mute[2] = (float*)data;
-                break;
-        case 11:
-                g_he_param.vol[2] = (float*)data;
-                break;
-        case 12:
-                g_he_param.pan[2] = (float*)data;
-                break;
-        case 13:
-                g_he_param.mute[3] = (float*)data;
-                break;
-        case 14:
-                g_he_param.vol[3] = (float*)data;
-                break;
-        case 15:
-                g_he_param.pan[3] = (float*)data;
-                break;
-        case 16:
-                g_he_param.mute[4] = (float*)data;
-                break;
-        case 17:
-                g_he_param.vol[4] = (float*)data;
-                break;
-        case 18:
-                g_he_param.pan[4] = (float*)data;
-                break;
-        case 19:
-                g_he_param.mute[5] = (float*)data;
-                break;
-        case 20:
-                g_he_param.vol[5] = (float*)data;
-                break;
-        case 21:
-                g_he_param.pan[5] = (float*)data;
-                break;
-        case 22:
-                g_he_param.mute[6] = (float*)data;
-                break;
-        case 23:
-                g_he_param.vol[6] = (float*)data;
-                break;
-        case 24:
-                g_he_param.pan[6] = (float*)data;
-                break;
-        case 25:
-                g_he_param.mute[7] = (float*)data;
-                break;
-        case 26:
-                g_he_param.vol[7] = (float*)data;
-                break;
-        case 27:
-                g_he_param.pan[7] = (float*)data;
-                break;
-        case 28:
-                g_he_param.mute[8] = (float*)data;
-                break;
-        case 29:
-                g_he_param.vol[8] = (float*)data;
-                break;
-        case 30:
-                g_he_param.pan[8] = (float*)data;
-                break;
-        case 31:
-                g_he_param.mute[9] = (float*)data;
-                break;
-        case 32:
-                g_he_param.vol[9] = (float*)data;
-                break;
-        case 33:
-                g_he_param.pan[9] = (float*)data;
-                break;
-        case 34:
-                g_he_param.mute[10] = (float*)data;
-                break;
-        case 35:
-                g_he_param.vol[10] = (float*)data;
-                break;
-        case 36:
-                g_he_param.pan[10] = (float*)data;
-                break;
-        case 37:
-                g_he_param.mute[11] = (float*)data;
-                break;
-        case 38:
-                g_he_param.vol[11] = (float*)data;
-                break;
-        case 39:
-                g_he_param.pan[11] = (float*)data;
-                break;
-        case 40:
-                g_he_param.mute[12] = (float*)data;
-                break;
-        case 41:
-                g_he_param.vol[12] = (float*)data;
-                break;
-        case 42:
-                g_he_param.pan[12] = (float*)data;
-                break;
-        case 43:
-                g_he_param.mute[13] = (float*)data;
-                break;
-        case 44:
-                g_he_param.vol[13] = (float*)data;
-                break;
-        case 45:
-                g_he_param.pan[13] = (float*)data;
-                break;
-        case 46:
-                g_he_param.mute[14] = (float*)data;
-                break;
-        case 47:
-                g_he_param.vol[14] = (float*)data;
-                break;
-        case 48:
-                g_he_param.pan[14] = (float*)data;
-                break;
-        case 49:
-                g_he_param.mute[15] = (float*)data;
-                break;
-        case 50:
-                g_he_param.vol[15] = (float*)data;
-                break;
-        case 51:
-                g_he_param.pan[15] = (float*)data;
-                break;
-        case 52:
-                g_he_param.mute[16] = (float*)data;
-                break;
-        case 53:
-                g_he_param.vol[16] = (float*)data;
-                break;
-        case 54:
-                g_he_param.pan[16] = (float*)data;
-                break;
-        case 55:
-                g_he_param.mute[17] = (float*)data;
-                break;
-        case 56:
-                g_he_param.vol[17] = (float*)data;
-                break;
-        case 57:
-                g_he_param.pan[17] = (float*)data;
-                break;
-        case 58:
-                g_he_param.mute[18] = (float*)data;
-                break;
-        case 59:
-                g_he_param.vol[18] = (float*)data;
-                break;
-        case 60:
-                g_he_param.pan[18] = (float*)data;
-                break;
-        case 61:
-                g_he_param.mute[19] = (float*)data;
-                break;
-        case 62:
-                g_he_param.vol[19] = (float*)data;
-                break;
-        case 63:
-                g_he_param.pan[19] = (float*)data;
-                break;
-        case 64:
-                g_he_param.mute[20] = (float*)data;
-                break;
-        case 65:
-                g_he_param.vol[20] = (float*)data;
-                break;
-        case 66:
-                g_he_param.pan[20] = (float*)data;
-                break;
-        case 67:
-                g_he_param.mute[21] = (float*)data;
-                break;
-        case 68:
-                g_he_param.vol[21] = (float*)data;
-                break;
-        case 69:
-                g_he_param.pan[21] = (float*)data;
-                break;
-        case 70:
-                g_he_param.mute[22] = (float*)data;
-                break;
-        case 71:
-                g_he_param.vol[22] = (float*)data;
-                break;
-        case 72:
-                g_he_param.pan[22] = (float*)data;
-                break;
-        case 73:
-                g_he_param.mute[23] = (float*)data;
-                break;
-        case 74:
-                g_he_param.vol[23] = (float*)data;
-                break;
-        case 75:
-                g_he_param.pan[23] = (float*)data;
-                break;
-        case 76:
-                g_he_param.mute[24] = (float*)data;
-                break;
-        case 77:
-                g_he_param.vol[24] = (float*)data;
-                break;
-        case 78:
-                g_he_param.pan[24] = (float*)data;
-                break;
-        case 79:
-                g_he_param.mute[25] = (float*)data;
-                break;
-        case 80:
-                g_he_param.vol[25] = (float*)data;
-                break;
-        case 81:
-                g_he_param.pan[25] = (float*)data;
-                break;
-        case 82:
-                g_he_param.mute[26] = (float*)data;
-                break;
-        case 83:
-                g_he_param.vol[26] = (float*)data;
-                break;
-        case 84:
-                g_he_param.pan[26] = (float*)data;
-                break;
-        case 85:
-                g_he_param.mute[27] = (float*)data;
-                break;
-        case 86:
-                g_he_param.vol[27] = (float*)data;
-                break;
-        case 87:
-                g_he_param.pan[27] = (float*)data;
-                break;
-        case 88:
-                g_he_param.mute[28] = (float*)data;
-                break;
-        case 89:
-                g_he_param.vol[28] = (float*)data;
-                break;
-        case 90:
-                g_he_param.pan[28] = (float*)data;
-                break;
-        case 91:
-                g_he_param.mute[29] = (float*)data;
-                break;
-        case 92:
-                g_he_param.vol[29] = (float*)data;
-                break;
-        case 93:
-                g_he_param.pan[29] = (float*)data;
-                break;
-        case 94:
-                g_he_param.mute[30] = (float*)data;
-                break;
-        case 95:
-                g_he_param.vol[30] = (float*)data;
-                break;
-        case 96:
-                g_he_param.pan[30] = (float*)data;
-                break;
-        case 97:
-                g_he_param.mute[31] = (float*)data;
-                break;
-        case 98:
-                g_he_param.vol[31] = (float*)data;
-                break;
-        case 99:
-                g_he_param.pan[31] = (float*)data;
-                break;
-
+	if(port < 7){
+		switch (port) {
+			case 0:
+				plugin->set_input((float*)data);
+				break;
+			case 1:
+				plugin->set_output_L((float*)data);
+				break;
+			case 2:
+				plugin->set_output_R((float*)data);
+				break;
+			case 3:
+				g_he_param.dk_nb = (float*)data;
+				break;
+			case 4:
+				g_he_param.use_note_off = (float*)data;
+				break;
+			case 5:
+				g_he_param.use_velocity = (float*)data;
+				break;
+			case 6:
+				g_he_param.key_shift = (float*)data;
+				break;
+			default:
+				break;
+		}
+	}else{
+		uint8_t ctrl_type = (port - 7) % 3;
+		switch(ctrl_type){
+			case 0:
+				g_he_param.mute[(port - 7)/ 3 ] = (float*)data;
+				break;
+			case 1:
+				g_he_param.vol[(port - 7)/ 3 ] = (float*)data;
+				break;
+			case 2:
+				g_he_param.pan[(port - 7)/ 3 ] = (float*)data;
+				break;
+			default:
+				break;
+		}
 	}
 }
 
