@@ -79,7 +79,7 @@ void He::check_param(he_param* hp){
 		loading = false;
 	}
 
-	/*
+
 	if((use_note_off)&&(*hp->use_note_off <= 0)){
 		use_note_off = false;
 	}else if((!use_note_off)&&(*hp->use_note_off > 0)){
@@ -93,7 +93,7 @@ void He::check_param(he_param* hp){
 	}
 
 	if(key_shift != (uint8_t)*hp->key_shift){
-		key_shift = hp->key_shift 
+		key_shift = (uint8_t)*hp->key_shift;
 	}
 
 	for(uint8_t i = 0; i < H_NB_INST; i++){
@@ -102,7 +102,7 @@ void He::check_param(he_param* hp){
 			drumkit[i]->set_pan(*hp->pan[i]);
 			drumkit[i]->set_mute(*hp->mute[i]);
 		}
-	}*/ 
+	}
 
 }
 

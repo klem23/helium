@@ -175,7 +175,7 @@ void HeGui::display_drumkit(){
 			// pan_knob_tab[i]->setValue(5);
 			pan_knob_tab[i]->updateGeometry();
 #ifdef LV2_GUI
-			lv2_send_data(i * 3 + 6, dk.get_pan(i));
+			lv2_send_data(i * 3 + PAN_SHIFT, dk.get_pan(i));
 #endif
 			vlay[i]->addWidget(pan_knob_tab[i]);
 
@@ -189,7 +189,7 @@ void HeGui::display_drumkit(){
 			vol_knob_tab[i]->setFixedHeight(150);
 			vol_knob_tab[i]->updateGeometry();
 #ifdef LV2_GUI
-			lv2_send_data(i * 3 + 5, dk.get_vol(i));
+			lv2_send_data(i * 3 + VOL_SHIFT, dk.get_vol(i));
 #endif
 			vlay[i]->addWidget(vol_knob_tab[i]);
 
@@ -199,13 +199,13 @@ void HeGui::display_drumkit(){
 				mute_butt_tab[i]->setStyleSheet("background-color : red");
 				mute_state[i] = true;
 #ifdef LV2_GUI
-				lv2_send_data(i * 3 + 4, 1);
+				lv2_send_data(i * 3 + MUTE_SHIFT, 1);
 #endif
 			}else{
 				mute_butt_tab[i]->setStyleSheet("background-color : grey");
 				mute_state[i] = false;
 #ifdef LV2_GUI
-				lv2_send_data(i * 3 + 4, 0);
+				lv2_send_data(i * 3 + MUTE_SHIFT, 0);
 #endif
 			}
 			vlay[i]->addWidget(mute_butt_tab[i]);
@@ -231,8 +231,8 @@ void HeGui::display_drumkit(){
 			//updateGeometry();
 			//lay.adjustSize();
 
-			connect(vol_knob_tab[i], SIGNAL(valueChanged(double)), this, SLOT(send_data(double)));
-			connect(pan_knob_tab[i], SIGNAL(valueChanged(double)), this, SLOT(send_data(double)));
+			connect(vol_knob_tab[i], SIGNAL(valueChanged(double)), this, SLOT(send_data(i*3 + VOL_SHIFT, double)));
+			connect(pan_knob_tab[i], SIGNAL(valueChanged(double)), this, SLOT(send_data(i*3 + PAN_SHIFT, double)));
 			connect(mute_butt_tab[i], SIGNAL(clicked()), this, SLOT(mute_click()));
 
 		}
@@ -295,13 +295,13 @@ void HeGui::send_data(double val){
 		if(src == vol_knob_tab[i]){
 			found = true;
 #ifdef LV2_GUI
-			lv2_send_data(i * 3 + 5, val / 100);
+			lv2_send_data(i * 3 + VOL_SHIFT, val / 100);
 #endif
 		}
 		if(src == pan_knob_tab[i]){
 			found = true;
 #ifdef LV2_GUI
-			lv2_send_data(i * 3 + 6, val/10);
+			lv2_send_data(i * 3 + PAN_SHIFT, val/10);
 #endif
 		}
 		i++;
@@ -321,13 +321,13 @@ void HeGui::mute_click(void){
 				mute_state[i] = false;
 				mute_butt_tab[i]->setStyleSheet("background-color : grey");
 #ifdef LV2_GUI
-				lv2_send_data(i * 3 + 4, 0);
+				lv2_send_data(i * 3 + MUTE_SHIFT, 0);
 #endif
 			}else{
 				mute_state[i] = true;
 				mute_butt_tab[i]->setStyleSheet("background-color : red");
 #ifdef LV2_GUI
-				lv2_send_data(i * 3 + 4, 1);
+				lv2_send_data(i * 3 + MUTE_SHIFT, 1);
 #endif
 			}
 		}

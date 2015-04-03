@@ -35,6 +35,10 @@
 	#include "lv2/lv2plug.in/ns/extensions/ui/ui.h"
 #endif
 
+#define MUTE_SHIFT 7
+#define VOL_SHIFT  8
+#define PAN_SHIFT  9
+
 class DrumKit : public plugin_iface
 {
 private:
