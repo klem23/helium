@@ -238,6 +238,7 @@ float sample::get_val_L(void){
 			return velocity * vol * panL * data[0][lgth - inc];
 		}
 	}else{
+		if(inc != 0) inc--;
 		return 0;
 	}
 }
@@ -247,7 +248,7 @@ float sample::get_val_R(void){
 		if(inc == 0){
 			return 0;
 		}else{
-			//inc--;
+			inc--;
 			if( channels == 2){
 				return velocity * vol * panR * data[1][lgth - inc];
 			}else{
@@ -255,6 +256,7 @@ float sample::get_val_R(void){
 			}
 		}
 	}else{
+		if(inc != 0) inc--;
 		return 0;
 	}
 }
