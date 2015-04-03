@@ -69,6 +69,7 @@ private:
 
   QStringList qlist;
 
+  QWidget 		*wd;
   QHBoxLayout	*lay;
   QVBoxLayout	*vlay[H_NB_INST];
   QComboBox		dk_list;
@@ -84,7 +85,6 @@ private:
 #ifdef LV2_GUI
   LV2UI_Controller lv2_ctrl;
   LV2UI_Write_Function lv2_write;
-  float* data;
 #endif
 
 

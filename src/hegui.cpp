@@ -90,14 +90,15 @@ float DrumKit::get_mute(int id){
 
 HeGui::HeGui(QWidget *parent)
 	:QScrollArea(parent)
-	,scanner(new hydro_dk_scan(false)){
+	,scanner(new hydro_dk_scan(false))
+	,lay(new QHBoxLayout()){
 
 	for(uint32_t i = 0; i < scanner->get_dk_nb(); i++){
 		QString qs(scanner->get_name(i).c_str());
 		qlist.push_back(qs);
 	}
 
-	lay = new QHBoxLayout();
+
 
 	dk_list.addItems(qlist);
 	dk_list.setFixedWidth(200);
@@ -133,6 +134,11 @@ HeGui::HeGui(QWidget *parent)
 
 	connect(&dk_list, SIGNAL(currentIndexChanged(int)), this, SLOT(dk_change(int)));
 
+#ifdef LV2_GUI
+  lv2_ctrl = NULL;
+  lv2_write = NULL;
+#endif
+
 }
 
 HeGui::~HeGui()
@@ -143,6 +149,7 @@ HeGui::~HeGui()
           qf[i] = NULL;
         }
     }
+	delete lay;
 }
 
 void HeGui::display_drumkit(){
@@ -239,7 +246,7 @@ void HeGui::display_drumkit(){
 	}
 	//show();
 
-	QWidget *wd = new QWidget();
+	wd = new QWidget();
 	wd->setLayout(lay);
 	setWidget(wd);
 
