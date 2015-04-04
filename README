@@ -10,7 +10,7 @@ available on your computer.
 ===============
 COMPILE
 ===============
-SCons or WAF
+SCons
 
 Dependency:
  - lib sndfile
@@ -19,7 +19,7 @@ Dependency:
  - Qt
  - Qwt
 
-Use SCons or Waf tool to compile.
+Use SCons tool to compile.
 
 In case of trouble with Qt compilation, go in file :
 /usr/lib/scons/SCons/Tool/qt.py
