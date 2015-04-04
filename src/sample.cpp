@@ -329,11 +329,11 @@ float sample::Mute(void){
 }
 
 void sample::set_mute(float val){
-	if((mute)&&(val == 0.0)){
+	if((mute)&&(val <= 0.0)){
 		mute = false;
 	}
 	
-	if((!mute)&&(val != 0.0)){
+	if((!mute)&&(val > 0.1)){
 		mute = true;
 	}
 }

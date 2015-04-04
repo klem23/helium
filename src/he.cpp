@@ -80,15 +80,15 @@ void He::check_param(he_param* hp){
 	}
 
 
-	if((use_note_off)&&(*hp->use_note_off <= 0)){
+	if((use_note_off)&&(*hp->use_note_off <= 0.0)){
 		use_note_off = false;
-	}else if((!use_note_off)&&(*hp->use_note_off > 0)){
+	}else if((!use_note_off)&&(*hp->use_note_off > 0.1)){
 		use_note_off = true;
 	}
 
-	if((use_velocity)&&(*hp->use_velocity <= 0)){
+	if((use_velocity)&&(*hp->use_velocity <= 0.0)){
 		use_velocity = false;
-	}else if((!use_velocity)&&(*hp->use_velocity > 0)){
+	}else if((!use_velocity)&&(*hp->use_velocity > 0.1)){
 		use_velocity = true;
 	}
 

@@ -19,6 +19,8 @@
 
 #include <QLabel>
 #include <QFrame>
+#include <QCheckBox>
+#include <QSpinBox>
 #include <iostream>
 
 #include "hegui.hpp"
@@ -98,11 +100,29 @@ HeGui::HeGui(QWidget *parent)
 		qlist.push_back(qs);
 	}
 
-
-
+	QVBoxLayout *vlay_cmd = new QVBoxLayout();
+	/* drumkit list*/
 	dk_list.addItems(qlist);
 	dk_list.setFixedWidth(200);
-	lay->addWidget(&dk_list);
+	vlay_cmd->addWidget(&dk_list);
+
+	/* use note off midi message*/
+	QCheckBox* qcb_note_off = new QCheckBox("Use Note Off");
+	vlay_cmd->addWidget(qcb_note_off);
+	/* use note on velocity midi message*/
+	QCheckBox* qcb_note_velocity = new QCheckBox("Use Velocity");
+	vlay_cmd->addWidget(qcb_note_velocity);
+
+	/*keyboard key shift for first sample*/
+	QSpinBox* qsb_keyshift = new QSpinBox();
+	qsb_keyshift->setRange(0, 72);
+	qsb_keyshift->setValue(48);
+
+	vlay_cmd->addWidget(qsb_keyshift);
+
+	qfl_cmd = new QFrame();
+	qfl_cmd->setLayout(vlay_cmd);
+	lay->addWidget(qfl_cmd);
 
 	QVBoxLayout *vlay = new QVBoxLayout();
 	QLabel *lab_pan = new QLabel("Pan");
@@ -133,6 +153,9 @@ HeGui::HeGui(QWidget *parent)
 	setFixedHeight(400);
 
 	connect(&dk_list, SIGNAL(currentIndexChanged(int)), this, SLOT(dk_change(int)));
+	connect(qcb_note_off, SIGNAL(stateChanged(int)), this, SLOT(note_off_check(int)));
+	connect(qcb_note_velocity, SIGNAL(stateChanged(int)), this, SLOT(velocity_check(int)));
+	connect(qsb_keyshift, SIGNAL(valueChanged(int)), this, SLOT(key_shift_change(int)));
 
 #ifdef LV2_GUI
   lv2_ctrl = NULL;
@@ -165,7 +188,7 @@ void HeGui::display_drumkit(){
 
 	delete lay;
 	lay = new QHBoxLayout();
-  	lay->addWidget(&dk_list);
+  	lay->addWidget(qfl_cmd);
   	lay->addWidget(qfl);
 
 
@@ -181,9 +204,7 @@ void HeGui::display_drumkit(){
 			pan_knob_tab[i]->setValue(dk.get_pan(i)*10);
 			// pan_knob_tab[i]->setValue(5);
 			pan_knob_tab[i]->updateGeometry();
-#ifdef LV2_GUI
-			lv2_send_data(i * 3 + PAN_SHIFT, dk.get_pan(i));
-#endif
+			send_data(i * 3 + PAN_SHIFT, dk.get_pan(i));
 			vlay[i]->addWidget(pan_knob_tab[i]);
 
 
@@ -195,9 +216,7 @@ void HeGui::display_drumkit(){
 			vol_knob_tab[i]->setValue(dk.get_vol(i)*100.0);
 			vol_knob_tab[i]->setFixedHeight(150);
 			vol_knob_tab[i]->updateGeometry();
-#ifdef LV2_GUI
-			lv2_send_data(i * 3 + VOL_SHIFT, dk.get_vol(i));
-#endif
+			send_data(i * 3 + VOL_SHIFT, dk.get_vol(i));
 			vlay[i]->addWidget(vol_knob_tab[i]);
 
 			/*mute button*/
@@ -205,15 +224,11 @@ void HeGui::display_drumkit(){
 			if(dk.get_mute(i) > 0.0){
 				mute_butt_tab[i]->setStyleSheet("background-color : red");
 				mute_state[i] = true;
-#ifdef LV2_GUI
-				lv2_send_data(i * 3 + MUTE_SHIFT, 1);
-#endif
+				send_data(i * 3 + MUTE_SHIFT, 1.1);
 			}else{
 				mute_butt_tab[i]->setStyleSheet("background-color : grey");
 				mute_state[i] = false;
-#ifdef LV2_GUI
-				lv2_send_data(i * 3 + MUTE_SHIFT, 0);
-#endif
+				send_data(i * 3 + MUTE_SHIFT, 0.0);
 			}
 			vlay[i]->addWidget(mute_butt_tab[i]);
 
@@ -254,10 +269,7 @@ void HeGui::display_drumkit(){
 
 void HeGui::dk_change(int index){
 
-#ifdef LV2_GUI
-	//float data = index;
-	lv2_send_data(3, index);
-#endif  
+	send_data(3, index);
 
 	dk.clean();
 	scanner->load_drumkit(index, (plugin_iface*)&dk);
@@ -293,7 +305,7 @@ void HeGui::lv2_send_data(uint32_t index, double val){
 
 void HeGui::send_data(uint32_t index, double val){
 #ifdef LV2_GUI
-			lv2_send_data(index, val / 100);
+			lv2_send_data(index, val);
 #endif
 }
 
@@ -306,15 +318,11 @@ void HeGui::send_data(double val){
 	while((found == false)&&(i < H_NB_INST)){
 		if(src == vol_knob_tab[i]){
 			found = true;
-#ifdef LV2_GUI
-			lv2_send_data(i * 3 + VOL_SHIFT, val / 100);
-#endif
+			send_data(i * 3 + VOL_SHIFT, val / 100);
 		}
 		if(src == pan_knob_tab[i]){
 			found = true;
-#ifdef LV2_GUI
-			lv2_send_data(i * 3 + PAN_SHIFT, val/10);
-#endif
+			send_data(i * 3 + PAN_SHIFT, val/10);
 		}
 		i++;
 	}
@@ -332,17 +340,36 @@ void HeGui::mute_click(void){
 			if(mute_state[i]){
 				mute_state[i] = false;
 				mute_butt_tab[i]->setStyleSheet("background-color : grey");
-#ifdef LV2_GUI
-				lv2_send_data(i * 3 + MUTE_SHIFT, 0);
-#endif
+				send_data(i * 3 + MUTE_SHIFT, 0.0);
 			}else{
 				mute_state[i] = true;
 				mute_butt_tab[i]->setStyleSheet("background-color : red");
-#ifdef LV2_GUI
-				lv2_send_data(i * 3 + MUTE_SHIFT, 1);
-#endif
+				send_data(i * 3 + MUTE_SHIFT, 1.1);
 			}
 		}
 		i++;
 	}
+}
+
+void HeGui::note_off_check(int state){
+
+	if(state == Qt::Checked){
+		send_data(4, 1.1);
+	}else{
+		send_data(4, 0.0);
+	}
+}
+
+void HeGui::velocity_check(int state){
+
+	if(state == Qt::Checked){
+		send_data(5, 1.1);
+	}else{
+		send_data(5, 0.0);
+	}
+}
+
+void HeGui::key_shift_change(int val){
+	double value = val;
+	send_data(6, value);
 }

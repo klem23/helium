@@ -85,7 +85,7 @@
     lv2:symbol "key_shift";
     lv2:name "Key Shift";
     lv2:minimum 0;
-    lv2:maximum 96;
+    lv2:maximum 72;
     lv2:default 48;
     lv2:portProperty lv2:integer;
   ],
