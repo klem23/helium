@@ -11,7 +11,13 @@ available on your computer.
 COMPILE
 ===============
 
-Use scons makefile to compile.
+Dependency:
+ - lib sndfile
+ - lib samplerate
+ - lib xerces
+
+Use scons tool to compile.
+
 In case of trouble with Qt compilation, go in file :
 /usr/lib/scons/SCons/Tool/qt.py
 and remove line 250 :
