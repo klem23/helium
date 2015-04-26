@@ -4,7 +4,13 @@
 #Environment & Common Source
 ############################
 #env = Environment();
-env = Environment(CCFLAGS = "-g -Wall");
+env = Environment(CCFLAGS = " -Wall ");
+
+#debug mode
+debug = ARGUMENTS.get('debug', 0)
+if int(debug):
+ env.Append(CCFLAGS = " -g ")
+
 VariantDir('build_scons/', 'src/', duplicate=0)
 
 common_src = Split("build_scons/hydro_dk_scan.cpp build_scons/xml_parser.cpp build_scons/sample.cpp")
@@ -27,7 +33,7 @@ env_he.SharedLibrary('build_scons/helium', he_src + common_obj)
 ##############
 #env_heg = Environment(CPPFLAGS = "-g -Wall -DLV2_GUI")
 env_heg = env.Clone();
-env_heg['CCFLAGS'] = "-g -Wall -DLV2_GUI"
+env_heg.Append(CCFLAGS = " -DLV2_GUI ")
 #######
 #Qt ENV
 env_heg.Tool('qt');
@@ -52,7 +58,6 @@ env_heg.Append(LIBS=['xerces-c'])
 env_heg.Append(LIBS=['qwt'])
 env_heg.SharedLibrary('build_scons/helium_gui', heg_src + common_obj)
 env_hegsa = env_heg.Clone();
-env_hegsa['CCFLAGS'] = "-g -Wall"
 env_heg.Program('build_scons/heliumgui', heg_src_sa + common_obj)
 
 
